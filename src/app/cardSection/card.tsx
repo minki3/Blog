@@ -11,7 +11,10 @@ export default function Card({
   path,
 }: CardData) {
   return (
-    <Link href={`/posts/${path}`} className="shadow-lg rounded-2xl pb-3">
+    <Link
+      href={`/posts/${path}`}
+      className=" shadow-lg rounded-2xl pb-3 hover:shadow-xl"
+    >
       <Image src={profile} alt={title} className="rounded-t-2xl" />
       <p className="text-end font-light text-sm pt-2 pr-2">{date}</p>
       <div className="flex flex-col items-center">

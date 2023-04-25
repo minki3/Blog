@@ -21,3 +21,7 @@ export const getCardData = async (): Promise<CardData[]> => {
 export const getFeaturedPosts = async (): Promise<CardData[]> => {
   return getCardData().then((posts) => posts.filter((post) => post.featured));
 };
+
+export const getNoneFeaturedPosts = async (): Promise<CardData[]> => {
+  return getCardData().then((posts) => posts.filter((post) => !post.featured));
+};
