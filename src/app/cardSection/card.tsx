@@ -3,13 +3,12 @@ import Link from "next/link";
 import profile from "../../../public/images/profile.jpg";
 import { CardData } from "../service/products";
 
-export default function Card({
-  date,
-  title,
-  description,
-  category,
-  path,
-}: CardData) {
+interface Props {
+  items: CardData;
+}
+
+export default function Card({ items }: Props) {
+  const { id, title, description, date, category, path, featured } = items;
   return (
     <Link
       href={`/posts/${path}`}
