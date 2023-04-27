@@ -2,7 +2,6 @@ import { readFile } from "fs/promises";
 import path from "path";
 
 export interface CardData {
-  id: number;
   title: string;
   description: string;
   date: string;
@@ -11,8 +10,10 @@ export interface CardData {
   featured: boolean;
 }
 
+export type PostData = CardData & { content: string };
+
 export const getCardData = async (): Promise<CardData[]> => {
-  const filePath = path.join(process.cwd(), "public/data", "data.json");
+  const filePath = path.join(process.cwd(), "public/data", "posts.json");
   return readFile(filePath, "utf-8")
     .then<CardData[]>(JSON.parse)
     .then((data) => data.sort((a, b) => (a.date > b.date ? -1 : 1)));
@@ -24,4 +25,19 @@ export const getFeaturedPosts = async (): Promise<CardData[]> => {
 
 export const getNoneFeaturedPosts = async (): Promise<CardData[]> => {
   return getCardData().then((posts) => posts.filter((post) => !post.featured));
+};
+
+export const getPost = async (fileName: string): Promise<PostData> => {
+  const filePath = path.join(
+    process.cwd(),
+    "public/data/posts",
+    `${fileName}.md`
+  );
+  const metadata = await getCardData().then((posts) =>
+    posts.find((post) => post.path === fileName)
+  );
+  if (!metadata) throw new Error(`${fileName}에 해당하는 데이터가 없음.`);
+
+  const content = await readFile(filePath, "utf-8");
+  return { ...metadata, content };
 };

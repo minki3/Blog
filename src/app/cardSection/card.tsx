@@ -1,6 +1,5 @@
 import Image from "next/image";
 import Link from "next/link";
-import profile from "../../../public/images/profile.jpg";
 import { CardData } from "../service/products";
 
 interface Props {
@@ -8,13 +7,19 @@ interface Props {
 }
 
 export default function Card({ items }: Props) {
-  const { id, title, description, date, category, path, featured } = items;
+  const { title, description, date, category, path, featured } = items;
   return (
     <Link
       href={`/posts/${path}`}
       className=" shadow-lg rounded-2xl pb-3 hover:shadow-xl"
     >
-      <Image src={profile} alt={title} className="rounded-t-2xl" />
+      <Image
+        src={`/images/posts/${path}.png`}
+        width={200}
+        height={200}
+        alt={title}
+        className="rounded-t-2xl w-full"
+      />
       <p className="text-end font-light text-sm pt-2 pr-2">{date}</p>
       <div className="flex flex-col items-center">
         <h1 className=" text-base pb-2">{title}</h1>

@@ -9,8 +9,8 @@ export default async function Carousel() {
       <h2 className="text-3xl font-bold">You May Like !</h2>
       <MultiCarousel>
         {posts.map((items) => {
-          const { id } = items;
-          return <Card key={id} items={items} />;
+          const { path } = items;
+          return <Card key={path} items={items} />;
         })}
       </MultiCarousel>
     </section>
