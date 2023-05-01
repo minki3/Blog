@@ -1,8 +1,8 @@
 import { getCardData, getPost } from "@/app/service/products";
 import { notFound, redirect } from "next/navigation";
-import MarkdownViewer from "./markdownViewer";
+import PostContent from "../postContent";
 import Image from "next/image";
-import { AiTwotoneCalendar } from "react-icons/ai";
+import NextPrev from "../nextPrev";
 
 interface Props {
   params: {
@@ -18,8 +18,7 @@ export function generateMetadata({ params }: Props) {
 
 export default async function PostsPage({ params: { slug } }: Props) {
   const post = await getPost(slug);
-  const { title, description, date, category, path, featured, content } = post;
-  console.log(post);
+  const { path, title, next, prev } = post;
   if (!post) {
     return notFound();
   }
@@ -32,15 +31,10 @@ export default async function PostsPage({ params: { slug } }: Props) {
         width={760}
         height={420}
       />
-      <section className="flex flex-col p-4">
-        <div className="flex items-center self-end text-sky-600">
-          <AiTwotoneCalendar />
-          <p className="font-semibold ml-2">{date.toString()}</p>
-        </div>
-        <h1 className="text-4xl font-bold">{title}</h1>
-        <p className="text-xl font-bold">{description}</p>
-        <div className="w-44 border-2 border-sky-600 mt-4 mb-8" />
-        <MarkdownViewer content={content} />
+      <PostContent post={post} />
+      <section className="flex shadow-md">
+        {prev && <NextPrev post={prev} type="prev" />}
+        {next && <NextPrev post={next} type="next" />}
       </section>
     </article>
   );

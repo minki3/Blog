@@ -4,13 +4,17 @@ import path from "path";
 export interface CardData {
   title: string;
   description: string;
-  date: string;
+  date: Date;
   category: string;
   path: string;
   featured: boolean;
 }
 
-export type PostData = CardData & { content: string };
+export type PostData = CardData & {
+  content: string;
+  next: CardData | null;
+  prev: CardData | null;
+};
 
 export const getCardData = async (): Promise<CardData[]> => {
   const filePath = path.join(process.cwd(), "public/data", "posts.json");
@@ -33,11 +37,16 @@ export const getPost = async (fileName: string): Promise<PostData> => {
     "public/data/posts",
     `${fileName}.md`
   );
-  const metadata = await getCardData().then((posts) =>
-    posts.find((post) => post.path === fileName)
-  );
-  if (!metadata) throw new Error(`${fileName}에 해당하는 데이터가 없음.`);
+  const posts = await getCardData();
+  const post = posts.find((post) => post.path === fileName);
+  if (!post) throw new Error(`${fileName}에 해당하는 데이터가 없음.`);
+
+  const index = posts.indexOf(post);
+
+  const next = index > 0 ? posts[index - 1] : null;
+
+  const prev = index < posts.length ? posts[index + 1] : null;
 
   const content = await readFile(filePath, "utf-8");
-  return { ...metadata, content };
+  return { ...post, content, next, prev };
 };
