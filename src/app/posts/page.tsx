@@ -5,5 +5,9 @@ export default async function Posts() {
   const posts = await getCardData();
   const categories = [...new Set(posts.map((item) => item.category))];
 
-  return <Filter posts={posts} categories={categories}></Filter>;
+  return (
+    <Filter posts={posts} categories={categories}>
+      <div></div>
+    </Filter>
+  );
 }
