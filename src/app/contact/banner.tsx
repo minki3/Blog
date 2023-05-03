@@ -9,14 +9,15 @@ export default function Banner({
   banner: BannerType;
 }) {
   const isSuccess = state === "success";
-  const icon = isSuccess ? "!!" : "실패 ";
+  const icon = isSuccess ? "!!" : "..";
   return (
     <p
       className={`p-2 rounded-lg text-center ${
         isSuccess ? "bg-green-300 " : " bg-red-300"
       }`}
     >
-      {message} {icon}
+      {message}
+      {icon}
     </p>
   );
 }

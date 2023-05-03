@@ -1,6 +1,7 @@
 "use client";
 
 import { ChangeEvent, FormEvent, useState } from "react";
+import { sendContactEmail } from "../service/contact";
 import Banner, { BannerType } from "./banner";
 
 interface Formtype {
@@ -9,12 +10,10 @@ interface Formtype {
   message: string;
 }
 
+const DEFAULT_DATA = { from: "", subject: "", message: "" };
+
 export default function ContactForm() {
-  const [form, setForm] = useState<Formtype>({
-    from: "",
-    subject: "",
-    message: "",
-  });
+  const [form, setForm] = useState<Formtype>(DEFAULT_DATA);
   const [banner, setBanner] = useState<BannerType | null>();
 
   const onChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -24,11 +23,19 @@ export default function ContactForm() {
 
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(form);
-    setBanner({ message: "성공", state: "error" });
-    setTimeout(() => {
-      setBanner(null);
-    }, 3000);
+    sendContactEmail(form)
+      .then(() => {
+        setBanner({ message: "전송 완료", state: "success" }),
+          setForm(DEFAULT_DATA);
+      })
+      .catch(() => {
+        setBanner({ message: "전송 실패", state: "error" });
+      })
+      .finally(() => {
+        setTimeout(() => {
+          setBanner(null);
+        }, 3000);
+      });
   };
 
   return (
