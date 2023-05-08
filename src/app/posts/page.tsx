@@ -1,5 +1,11 @@
 import { getCardData } from "../service/products";
 import Filter from "./filter";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "모든 글",
+  description: "모든 글",
+};
 
 export default async function Posts() {
   const posts = await getCardData();

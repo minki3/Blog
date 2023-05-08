@@ -1,6 +1,12 @@
+import { Metadata } from "next";
 import Profile from "../Profile/profile";
 
 const TITLE_CLASS = "text-2xl font-bold, text-gray-800 my-2";
+
+export const metadata: Metadata = {
+  title: "about me",
+  description: "나의 소개",
+};
 
 export default function About() {
   return (

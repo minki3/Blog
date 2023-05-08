@@ -10,9 +10,11 @@ interface Props {
   };
 }
 
-export function generateMetadata({ params }: Props) {
+export async function generateMetadata({ params: { slug } }: Props) {
+  const { title, description } = await getPost(slug);
   return {
-    title: params.slug,
+    title,
+    description,
   };
 }
 

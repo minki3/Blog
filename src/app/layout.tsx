@@ -6,8 +6,14 @@ import Footer from "./footer/page";
 const sans = Open_Sans({ subsets: ["latin"] });
 
 export const metadata = {
-  title: "My blog",
+  title: {
+    default: "My Blog",
+    template: "My Blog | %s",
+  },
   description: "This is my Blog",
+  icons: {
+    icon: "/favicon.ico",
+  },
 };
 
 export default function RootLayout({
