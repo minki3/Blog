@@ -1,4 +1,4 @@
-import { getCardData } from "../service/products";
+import { getCardData, getFeaturedPosts } from "../service/products";
 import Filter from "./filter";
 import { Metadata } from "next";
 
@@ -12,4 +12,9 @@ export default async function Posts() {
   const categories = [...new Set(posts.map((item) => item.category))];
 
   return <Filter posts={posts} categories={categories}></Filter>;
+}
+
+export async function generateStaticParams() {
+  const posts = await getFeaturedPosts();
+  return posts.map((item) => ({ slug: item.path }));
 }

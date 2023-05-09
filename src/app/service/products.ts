@@ -1,10 +1,11 @@
 import { readFile } from "fs/promises";
 import path from "path";
+import { cache } from "react";
 
 export interface CardData {
   title: string;
   description: string;
-  date: Date;
+  date: string;
   category: string;
   path: string;
   featured: boolean;
@@ -16,12 +17,12 @@ export type PostData = CardData & {
   prev: CardData | null;
 };
 
-export const getCardData = async (): Promise<CardData[]> => {
+export const getCardData = cache(async () => {
   const filePath = path.join(process.cwd(), "public/data", "posts.json");
   return readFile(filePath, "utf-8")
     .then<CardData[]>(JSON.parse)
     .then((data) => data.sort((a, b) => (a.date > b.date ? -1 : 1)));
-};
+});
 
 export const getFeaturedPosts = async (): Promise<CardData[]> => {
   return getCardData().then((posts) => posts.filter((post) => post.featured));

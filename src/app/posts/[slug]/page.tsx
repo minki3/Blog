@@ -1,4 +1,4 @@
-import { getCardData, getPost } from "@/app/service/products";
+import { getPost } from "@/app/service/products";
 import { notFound, redirect } from "next/navigation";
 import PostContent from "../postContent";
 import Image from "next/image";
@@ -40,9 +40,4 @@ export default async function PostsPage({ params: { slug } }: Props) {
       </section>
     </article>
   );
-}
-
-export async function generateStaticParams() {
-  const posts = await getCardData();
-  return posts.map((item) => ({ slug: item.path }));
 }
